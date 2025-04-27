@@ -5,6 +5,7 @@ A comprehensive agent-based architecture for automating business operations with
 ## Overview
 
 This system implements a sophisticated multi-agent framework designed to automate and orchestrate business operations across different departments. It leverages AI agents to handle tasks in customer support, sales, development, marketing, administration, design, and finance, all coordinated by a top-level orchestration agent.
+![image](https://github.com/user-attachments/assets/3c48fc28-be36-4bca-ae4b-d7e88c8e27a4)
 
 ### Key Features
 
@@ -15,6 +16,7 @@ This system implements a sophisticated multi-agent framework designed to automat
 - **Scheduling System**: Automated daily, weekly, and hourly task scheduling
 - **Business System Integration**: Connectors for CRM, Slack, GitHub, Figma, QuickBooks, and more
 - **Memory Management**: Vector-based memory store for agent context persistence
+![Uploading image.png…]()
 
 ## Architecture
 
