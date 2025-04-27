@@ -16,7 +16,8 @@ This system implements a sophisticated multi-agent framework designed to automat
 - **Scheduling System**: Automated daily, weekly, and hourly task scheduling
 - **Business System Integration**: Connectors for CRM, Slack, GitHub, Figma, QuickBooks, and more
 - **Memory Management**: Vector-based memory store for agent context persistence
-![Uploading image.png…]()
+![Screenshot 2025-04-27 160934](https://github.com/user-attachments/assets/520b7666-04b4-4754-9710-7d062b2039b8)
+
 
 ## Architecture
 
@@ -54,8 +55,8 @@ The system is built around these key components:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/agent-orchestration-system.git
-cd agent-orchestration-system
+git clone https://github.com/saadbenchekroun/Advanced-Multi-Agent-Orchestration-System-for-Business-Operations.git
+cd Advanced-Multi-Agent-Orchestration-System-for-Business-Operations
 ```
 
 2. Install required packages:
