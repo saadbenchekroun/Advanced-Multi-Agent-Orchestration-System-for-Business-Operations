@@ -10,6 +10,7 @@ import argparse
 import logging
 import os
 import sys
+import datetime
 
 from core.system import AgentSystem
 from config_generator import generate_default_config
@@ -34,16 +35,16 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Set logging level
+    # logging level
     if args.verbose:
         logging.getLogger("agent_system").setLevel(logging.DEBUG)
     
-    # Generate default config if requested
+    # default config if requested
     if args.generate_config:
         generate_default_config(args.config)
         sys.exit(0)
     
-    # Check if config exists
+    # config exists?
     if not os.path.exists(args.config):
         print(f"Configuration file not found: {args.config}")
         print("Run with --generate-config to create a default configuration")
