@@ -103,3 +103,9 @@ class AgentSystem:
             logger.error(f"Agent system error: {e}")
             self.stop()
    
+    def stop(self):
+        """Stop the agent system"""
+        logger.info("Stopping agent system")
+        self.running = False
+        self.executor.shutdown(wait=False)
+        logger.info("Agent system stopped")
