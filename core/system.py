@@ -109,3 +109,89 @@ class AgentSystem:
         self.running = False
         self.executor.shutdown(wait=False)
         logger.info("Agent system stopped")
+
+    def _create_tool_set(self, tool_names: List[str]) -> List[Any]:
+        """Create a set of tools for an agent based on tool names"""
+        tools = []
+        for tool in tool_names:
+            if tool == "browser":
+                tools.append(BrowserTool())
+            elif tool == "search":
+                tools.append(SearchTool)
+            elif tool == "calculator":
+                tools.append(CalculatorTool())
+        return tools
+            
+    def _setup_agents(self):
+        """Initialize all agents defined in the configuration"""
+        default_model = self.config.get("agent_settings", {}).get("default_model", "gemini-1.5-flash")
+        
+        # 1. Customer Support Agent with advanced capabilities
+        self.agents["customer_support"] = self._create_customer_support_agent(default_model)
+        
+        # 2. Sales/Lead Gen Agent
+        self.agents["sales"] = self._create_sales_agent(default_model)
+        
+        # 3. Development Agent
+        self.agents["development"] = self._create_development_agent(default_model)
+        
+        # 4. Marketing Agent
+        self.agents["marketing"] = self._create_marketing_agent(default_model)
+        
+        # 5. Admin/Project Management Agent
+        self.agents["admin"] = self._create_admin_agent(default_model)
+        
+        # 6. Design/UX Agent
+        self.agents["design"] = self._create_design_agent(default_model)
+        
+        # 7. Finance Agent
+        self.agents["finance"] = self._create_finance_agent(default_model)
+        
+        # 8. Top-level Orchestrator Agent (Meta-Agent)
+        self.agents["orchestrator"] = self._create_orchestrator_agent(default_model)
+        
+        logger.info(f"Initialized {len(self.agents)} agent systems") 
+    
+    def get_system_status(self) -> Dict:
+        """Get the current status of the agent system"""
+        pending_tasks = self.task_queue.qsize()
+        completed_tasks = len([t for t in self.completed_tasks.values() if t.status == TaskStatus.COMPLETED])
+        failed_tasks = len([t for t in self.completed_tasks.values() if t.status == TaskStatus.FAILED])
+        needs_intervention = len([t for t in self.completed_tasks.values() if t.status == TaskStatus.NEEDS_HUMAN_INTERVENTION])
+        
+        return {
+            "status": "running" if self.running else "stopped",
+            "tasks": {
+                "pending": pending_tasks,
+                "completed": completed_tasks,
+                "failed": failed_tasks,
+                "needs_intervention": needs_intervention
+            },
+            "agents": list(self.agents.keys()),
+            "connectors": list(self.connectors.keys()),
+            "uptime": datetime.datetime.now().timestamp() - self.start_time.timestamp() if hasattr(self, 'start_time') else 0
+        }
+    
+    def get_agent_performance(self, agent_name: str) -> Dict:
+        """Get performance metrics for a specific agent"""
+        if agent_name not in self.agents:
+            raise ValueError(f"No agent found with name: {agent_name}")
+            
+        agent_tasks = [t for t in self.completed_tasks.values() if t.agent_name == agent_name]
+        completed = [t for t in agent_tasks if t.status == TaskStatus.COMPLETED]
+        failed = [t for t in agent_tasks if t.status == TaskStatus.FAILED]
+        
+        # Calculate average processing time for completed tasks
+        if completed:
+            avg_time = sum((t.updated_at - t.created_at).total_seconds() for t in completed) / len(completed)
+        else:
+            avg_time = 0
+            
+        return {
+            "agent_name": agent_name,
+            "total_tasks": len(agent_tasks),
+            "completed_tasks": len(completed),
+            "failed_tasks": len(failed),
+            "success_rate": len(completed) / len(agent_tasks) if agent_tasks else 0,
+            "average_processing_time": avg_time
+        }
